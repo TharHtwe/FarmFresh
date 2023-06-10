@@ -1,0 +1,24 @@
+<div class="container my-5">
+  <h1 class="mb-3">Edit Product</h1>
+
+  <div class="row">
+    <div class="col-6">
+      <form #form="ngForm" (ngSubmit)="updateProduct()">
+        <div class="mb-3">
+          <input id="name" class="form-control" type="text" name="name" [(ngModel)]="productDetails.name" placeholder="Name" aria-label="Name">
+        </div>
+        <div class="mb-3">
+          <select id="category" name="category" [(ngModel)]="selectedCategory" class="form-select" aria-label="Select Category">
+            <option *ngFor="let category of categories;trackBy: trackByFn" [ngValue]="category">{{category.name}}</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <textarea class="form-control" id="description" name="description" [(ngModel)]="productDetails.description" placeholder="Description" rows="3"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary mr-5">Save</button>
+        <button type="button" class="btn btn-danger ml-5" (click)="deleteProduct()">Delete</button>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,42 @@
+<div>
+  <div class="container my-5">
+    <div class="row">
+      <div class="offset-md-3 col-lg-5 col-md-7 offset-lg-4">
+        <div class="panel border bg-white">
+          <div class="panel-heading">
+            <h3 class="pt-3 font-weight-bold">Login</h3>
+          </div>
+          <div class="panel-body p-3">
+            <form [formGroup]="signupForm">
+              <div class="mb-3">
+                <label for="firstName" class="form-label">First Name</label>
+                <input type="text" formControlName="firstName" class="form-control" id="firstName">
+                <small class="text-danger" *ngIf="signupForm.controls['firstName'].dirty && signupForm.hasError('required', 'firstName')">* First Name is required.</small>
+              </div>
+              <div class="mb-3">
+                <label for="lastName" class="form-label">Last Name</label>
+                <input type="text" formControlName="lastName" class="form-control" id="lastName">
+                <small class="text-danger" *ngIf="signupForm.controls['lastName'].dirty && signupForm.hasError('required', 'lastName')">* Last Name is required.</small>
+              </div>
+              <div class="mb-3">
+                <label for="email" class="form-label">Email address</label>
+                <input type="email" formControlName="email" class="form-control" id="email">
+                <small class="text-danger" *ngIf="signupForm.controls['email'].dirty && signupForm.hasError('required', 'email')">* Email is required.</small>
+              </div>
+              <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" formControlName="password" class="form-control" id="password">
+                <small class="text-danger" *ngIf="signupForm.controls['password'].dirty && signupForm.hasError('required', 'password')">* Password is required.</small>
+              </div>
+              <button type="submit" (click)="onSubmit()" class="btn btn-primary w-100">Sign Up</button>
+              <div class="text-center pt-4 text-muted">
+                Aleady have an account?
+                <a id="login" routerLink="/login">Login</a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
