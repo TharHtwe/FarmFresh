@@ -1,0 +1,36 @@
+<div class="container my-3">
+  <div class="d-flex justify-content-between">
+    <h1>Products</h1>
+    <button class="btn btn-primary my-2 py-2" (click)="addProduct()">Add</button>
+  </div>
+  <table class="table" *ngIf="products && products.length > 0">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Description</th>
+        <th> </th>
+        <th> </th>
+      </tr>
+    </thead>
+    <tbody class="table-group-divider">
+      <tr *ngFor="let product of products | paginate : {
+          itemsPerPage: perPage,
+          currentPage: page,
+          totalItems: total
+        };">
+        <td>{{ product.id }}</td>
+        <td>{{ product.name }}</td>
+        <td>{{ product.category?.name }}</td>
+        <td>{{ product.description }}</td>
+        <td><a [routerLink]="['/products', 'edit', product.id]">View</a></td>
+        <td><a (click)="deleteProduct(product.id)">Delete</a></td>
+      </tr>
+    </tbody>
+  </table>
+  <div *ngIf="total > 0" class="d-flex justify-content-center">
+    <pagination-controls (pageChange)="renderPage($event)"></pagination-controls>
+  </div>
+  <p *ngIf="total < 1">No products found.</p>
+</div>

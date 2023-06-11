@@ -1,5 +1,6 @@
 ﻿using FarmFresh_API.Data;
 using FarmFresh_API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -26,6 +27,7 @@ namespace FarmFresh_API.Controllers
             return Ok(units);
         }
 
+        [Authorize(Policy = "Admin")]
         [HttpPost]
         public async Task<IActionResult> AddUnit([FromBody] Unit unitRequest)
         {

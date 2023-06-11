@@ -28,7 +28,7 @@ export class SignupComponent {
   onSignUp() {
     if(this.signupForm.valid){
       this.isProcessing = true;
-      this.auth.signUp(this.signupForm)
+      this.auth.signUp(this.signupForm.value)
         .subscribe({
           next: (response: any) => {
             this.signupForm.reset();
@@ -37,8 +37,8 @@ export class SignupComponent {
           },
           error: (err: any) => {
             this.isProcessing = false;
+			console.log(err);
             this.toast.error({detail: "ERROR!", summary: err.error.message, duration: 5000});
-            console.log(err);
           }
         })
     }else{

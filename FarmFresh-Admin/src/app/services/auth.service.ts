@@ -1,28 +1,53 @@
 import { HttpClient } from '@angular/common/http';
-import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   baseApiUrl: string = environment.baseApiUrl;
+  private userPayload: any;
+  private loggedIn = new BehaviorSubject<boolean>(false);
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    this.userPayload = this.decodeToken();
+   }
 
   login(loginObj: any): any {
-    this.http.post<any>(this.baseApiUrl + '/api/admin/authenticate', loginObj);
+    return this.http.post<any>(this.baseApiUrl + '/api/admin/authenticate', loginObj);
+  }
+
+  logOut() {
+    localStorage.clear();
+    this.loggedIn.next(false);
   }
 
   storeToken(token: string) {
-    localStorage.setItem('token', token);
+    localStorage.setItem('adminToken', token);
+    this.loggedIn.next(true)
   }
 
   getToken() {
-    return localStorage.getItem('token');
+    return localStorage.getItem('adminToken');
   }
 
-  isLoggedIn(): boolean {
-    return !!localStorage.getItem('token')
+  isLoggedIn() {
+    return !!localStorage.getItem('adminToken')
+  }
+
+  decodeToken() {
+    const jwtHelper = new JwtHelperService();
+    const token = this.getToken()!;
+
+    return jwtHelper.decodeToken(token);
+  }
+
+  getFullName() {
+    if(this.userPayload){
+      return this.userPayload.name;
+    }
   }
 }

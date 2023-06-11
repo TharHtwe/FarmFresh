@@ -1,3 +1,4 @@
+import { HttpClient, HttpEventType } from '@angular/common/http';
 import { ProductsService } from './../../../services/products.service';
 import { Product } from './../../../models/product.model';
 import { CategoriesService } from './../../../services/categories.service';
@@ -21,10 +22,18 @@ export class AddProductComponent {
     id: 0,
     categoryId: 0,
     name: '',
-    description: ''
+    description: '',
+    images: '',
+    countryOfOrigin: '',
+    newArrival: true,
+    onPromotion: true
   }
 
-  constructor(private categoriesService: CategoriesService, private productsService: ProductsService, private router: Router) {}
+  response: any;
+
+  constructor(private categoriesService: CategoriesService, private productsService: ProductsService, private router: Router, private http: HttpClient) {
+    this.response = {message: '', list: []}
+  }
 
   ngOnInit(): void {
     this.categoriesService.getAllCategories()
@@ -40,12 +49,17 @@ export class AddProductComponent {
 
   addProduct() {
     this.addProductRequest.categoryId = this.selectedCategory.id
+    this.addProductRequest.images = this.response.list.toString()
     this.productsService.addProduct(this.addProductRequest)
       .subscribe({
         next: (product) => {
           this.router.navigate(['products'])
         }
       })
+  }
+
+  uploadFinished(event: any) {
+    this.response = event;
   }
 
   trackByFn(index: number, item: any): void {

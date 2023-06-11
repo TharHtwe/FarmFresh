@@ -1,4 +1,5 @@
-﻿using FarmFresh_API.Models;
+﻿using FarmFresh_API.Extensions;
+using FarmFresh_API.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,7 @@ namespace FarmFresh_API.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ProductStock>().HasKey(k => new { k.ProductId, k.UnitId });
+            modelBuilder.Seed();
         }
     }
 }

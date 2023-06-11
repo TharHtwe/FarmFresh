@@ -15,6 +15,15 @@
         <div class="mb-3">
           <textarea class="form-control" id="description" name="description" [(ngModel)]="productDetails.description" placeholder="Description" rows="3"></textarea>
         </div>
+        <div class="mb-3">
+          <input id="origin" class="form-control" type="text" name="origin" [(ngModel)]="productDetails.countryOfOrigin" placeholder="Country of origin" aria-label="Country of origin">
+        </div>
+
+        <div *ngIf="!imageChanged">
+          <img *ngFor="let img of images;" [src]="createImgPath(img)" style="width:60px; height:60px;">
+        </div>
+
+        <app-upload (onUploadFinished)="uploadFinished($event)"></app-upload>
 
         <button type="submit" class="btn btn-primary mr-5">Save</button>
         <button type="button" class="btn btn-danger ml-5" (click)="deleteProduct()">Delete</button>

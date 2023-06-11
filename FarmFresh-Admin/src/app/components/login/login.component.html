@@ -19,10 +19,10 @@
                 <small *ngIf="loginForm.controls['password'].dirty && loginForm.hasError('required', 'password')" class="text-danger">* Password is required.</small>
               </div>
               <button (click)="onLogin()" type="submit" class="btn btn-primary w-100">Login</button>
-              <div class="text-center pt-4 text-muted">
+              <!-- <div class="text-center pt-4 text-muted">
                 Don't have an account?
                 <a id="signup" routerLink="/signup">Sign Up</a>
-              </div>
+              </div> -->
             </form>
           </div>
         </div>

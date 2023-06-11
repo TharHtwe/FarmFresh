@@ -1,3 +1,4 @@
+import { environment } from './../../../../environments/environment';
 import { CategoriesService } from './../../../services/categories.service';
 import { ProductsService } from './../../../services/products.service';
 import { Component } from '@angular/core';
@@ -12,6 +13,7 @@ import { Product } from 'src/app/models/product.model';
 })
 export class EditProductComponent {
   categories: Category[] = [];
+  images: string[] = [];
   selectedCategory: Category={
     id: 0,
     name: ''
@@ -21,8 +23,15 @@ export class EditProductComponent {
     id: 0,
     categoryId: 0,
     name: '',
-    description: ''
+    description: '',
+    images: '',
+    countryOfOrigin: '',
+    newArrival: true,
+    onPromotion: true
   }
+
+  response: any;
+  imageChanged: boolean = false;
 
   constructor (private route: ActivatedRoute, private productsService: ProductsService, private categoriesService: CategoriesService, private router: Router) {}
 
@@ -45,6 +54,7 @@ export class EditProductComponent {
             .subscribe({
               next: (response) => {
                 this.productDetails = response;
+                this.images = this.productDetails.images.split(',');
                 this.selectedCategory = this.categories.find(c => c.id === this.productDetails.categoryId)!
               },
               error: (err) => {
@@ -58,7 +68,10 @@ export class EditProductComponent {
 
   updateProduct() {
     this.productDetails.categoryId = this.selectedCategory.id
-    this.productsService.updateProduct(this.productDetails.id, this.productDetails)
+    if(this.imageChanged){
+      this.productDetails.images = this.response.list.toString()
+    }
+    this.productsService.updateProduct(this.productDetails.id, this.productDetails, this.imageChanged)
       .subscribe({
         next: (product) => {
           this.router.navigate(['products']);
@@ -73,6 +86,15 @@ export class EditProductComponent {
           this.router.navigate(['products']);
         }
       })
+  }
+
+  uploadFinished(event: any) {
+    this.imageChanged = true;
+    this.response = event;
+  }
+
+  public createImgPath = (serverPath: string) => {
+    return `${environment.baseApiUrl}/${serverPath}`;
   }
 
   trackByFn(index: number, item: any): void {

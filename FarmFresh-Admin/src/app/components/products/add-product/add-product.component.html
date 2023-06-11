@@ -1,4 +1,4 @@
-<div class="container my-5">
+<div class="container my-3">
   <h1 class="mb-3">Add New Product</h1>
 
   <div class="row">
@@ -15,6 +15,11 @@
         <div class="mb-3">
           <textarea class="form-control" id="description" name="description" [(ngModel)]="addProductRequest.description" placeholder="Description" rows="3"></textarea>
         </div>
+        <div class="mb-3">
+          <input id="origin" class="form-control" type="text" name="origin" [(ngModel)]="addProductRequest.countryOfOrigin" placeholder="Country of origin" aria-label="Country of origin">
+        </div>
+
+        <app-upload (onUploadFinished)="uploadFinished($event)"></app-upload>
 
         <button type="submit" class="btn btn-primary">Save</button>
       </form>
